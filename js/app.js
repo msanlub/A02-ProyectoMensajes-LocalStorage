@@ -7,14 +7,14 @@ let id = 1;
 document.addEventListener('DOMContentLoaded', (e) => {
     mensajes = JSON.parse(localStorage.getItem('mensajes')) || [];
     id = parseInt(localStorage.getItem('id')) || 1;
-    mostrarMensajes();  
+    actualizarHTML();  
 });
 
 formulario.addEventListener('submit', agregarMensaje);
 
 // Funciones
-function agregarMensaje(e) {
-    e.preventDefault();
+function agregarMensaje(evento) {
+    evento.preventDefault();
 
     const mensaje = document.querySelector('#tweet').value; //textarea
 
@@ -22,15 +22,17 @@ function agregarMensaje(e) {
         id: id, 
         texto: mensaje
     };
+
     id++
+
     mensajes = [...mensajes, mensajeObjeto];
 
-    mostrarMensajes();
+    actualizarHTML();
     actualizarStorage();
     formulario.reset();
 }
 
-function mostrarMensajes() {
+function actualizarHTML() {
     limpiarHTML();
 
     mensajes.forEach(mensaje => {
@@ -57,7 +59,7 @@ function actualizarStorage() {
 function borrarMensaje(id) {
     mensajes = mensajes.filter(mensaje => mensaje.id !== id);
 
-    mostrarMensajes();
+    actualizarHTML();
     actualizarStorage();
 }
 
